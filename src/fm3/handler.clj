@@ -34,7 +34,7 @@
   "Admin!")
 
 (defn handle-404 [req]
-  "Your face sucks!")
+  (render-page "templates/404.mustache" req)) 
 
 (defroutes app-routes
   (GET "/" [] handle-index)
