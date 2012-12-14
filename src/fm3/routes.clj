@@ -1,4 +1,4 @@
-(ns fm3.handler
+(ns fm3.routes
   (:use compojure.core)
   (:require fm3.blog)
   (:use fm3.views)
