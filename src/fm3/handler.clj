@@ -5,24 +5,23 @@
   (:require [compojure.handler :as handler]
             [compojure.route :as route]))
 
-(def css-url "/style.css")
-
 (defn page-header []
-  (tmpl/render-resource "templates/header.mustache" {:CSS css-url}))
+  (tmpl/render-resource "templates/header.mustache" {}))
 
 (defn page-footer []
   (tmpl/render-resource "templates/footer.mustache" {}))
 
-(defn partials []
-  {:header (page-header)
-   :footer (page-footer)})
+(defn render-page [templ data]
+  (def partials {:header (page-header)
+                 :footer (page-footer)})
+  (tmpl/render-resource templ data partials))
 
 (defn render-post [post]
-  (tmpl/render-resource "templates/post.mustache" post (partials)))
+  (render-page "templates/post.mustache" post))
 
 (defn handle-all [req]
   (def posts {:posts (fm3.blog/all-posts)})
-  (tmpl/render-resource "templates/index.mustache" posts (partials)))
+  (render-page "templates/index.mustache" posts))
 
 (defn handle-index [req]
   (def post-id (:id (:params req)))
