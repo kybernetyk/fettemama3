@@ -15,8 +15,13 @@
 
 ;;-------------- le blog --------------
 (defn all-posts []
-  (reverse 
-    (select posts)))
+    (select posts
+            (order :id :desc)))
+
+(defn last-n-posts [postcount]
+   (select posts
+           (order :id :desc)
+           (limit postcount)))
 
 (defn post-with-id [id]
   (first
