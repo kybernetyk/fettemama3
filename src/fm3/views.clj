@@ -20,19 +20,6 @@
   (tmpl/render-resource templ data partials))
 
 ;; ----------------------------------------- POST RENDERING -------------------------
-; ---------- post transformer -----------------
-(defn transformer-l33t [post]
-  {:id (:id post)
-   :content (fm3.l33t/make-l33t (:content post))})
-
-(defn transformer-none [post]
-  post)
-
-(defn make-post-transformer [transformer-type]
-  (if (= transformer-type "l33t")
-    transformer-l33t
-    transformer-none))
-
 ; ----------- post renderer -----------------
 (defn make-post-list [posts]
   {:days [{:date "Heute"
@@ -41,19 +28,18 @@
 (defn render-posts [posts]
   (render-page "templates/index.mustache" (make-post-list posts)))
 
-(defn render-last-n-posts [transformer postcount]
-  (def posts (fm3.blog/last-n-posts postcount))
-  (def transformed-posts (into [] (map transformer posts))) ;clostache wants a VECTOR - won't work with a LIST oO
-  (render-posts transformed-posts))
+(defn render-post [post]
+  (render-page "templates/post.mustache" post))
 
-(defn render-all-posts [transformer]
-  (def posts (fm3.blog/all-posts))
-  (def transformed-posts (into [] (map transformer posts))) ;clostache wants a VECTOR - won't work with a LIST oO
-  (render-posts transformed-posts))
 
-(defn render-single-post-with-id [transformer post-id]
-  (def post (fm3.blog/post-with-id post-id))
-  (render-page "templates/post.mustache" (transformer post)))
+(defn render-last-n-posts [postcount]
+  (render-posts (fm3.blog/last-n-posts postcount)))
+
+(defn render-all-posts []
+  (render-posts (fm3.blog/all-posts)))
+
+(defn render-single-post-with-id [post-id]
+  (render-post (fm3.blog/post-with-id post-id)))
 
 
 ;; ----------------------------------------- ADMIN -------------------------
@@ -90,14 +76,12 @@
   (render-page "templates/404.mustache" req)) 
 
 (defn handle-index [req]
-  (def transformer 
-    (make-post-transformer (:transformer (:params req))))
   (def post-id 
     (:id (:params req)))
   (def post-mode
     (:mode (:params req)))
   (if (= post-mode "all")
-    (render-all-posts transformer)
+    (render-all-posts)
     (if post-id 
-      (render-single-post-with-id transformer post-id) 
-      (render-last-n-posts transformer 20))))
+      (render-single-post-with-id post-id) 
+      (render-last-n-posts 20))))
