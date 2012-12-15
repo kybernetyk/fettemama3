@@ -10,3 +10,4 @@ pom.xml
 .lein-plugins
 .lein-env
 resources/password
+*.war
