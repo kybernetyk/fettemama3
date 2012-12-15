@@ -2,6 +2,8 @@
   (:require [clostache.parser :as tmpl])
   (:require fm3.blog)
   (:require fm3.l33t)
+  (:require [clj-time.core :as time])
+  (:require [clj-time.format :as timeformat])
   (:require [clojure.java.io :as io])
   (:require [clojure.string :as string])
   (:use [ring.util.response :only [redirect]]))
@@ -21,9 +23,33 @@
 
 ;; ----------------------------------------- POST RENDERING -------------------------
 ; ----------- post renderer -----------------
+; convert a post timestamp to human readable format
+(defn make-date [timestamp]
+  (def formatter (timeformat/formatter "yyyy-MM-dd HH:mm:ss.S"))
+  (def date (timeformat/parse formatter timestamp))
+  (str (time/day date) " - " (time/month date) " - " (time/year date)))
+
+; get's a human readable date string from a post parsing its :timestamp 
+(defn date-for-post [post]
+  (make-date (str (:timestamp post))))
+
+; makes a list of distinct dates from 'posts'
+(defn make-date-list [posts]
+  (distinct (map date-for-post posts)))
+
+; makes a map{list} of posts belonging to 'date'
+(defn posts-for-date [posts date]
+  (def the-posts 
+    (filter (fn [post] (= (date-for-post post) date)) posts))
+  {:date date :posts the-posts})
+
+; sort posts by date and put them into a clostache compatible map
+; this is very ugly as I'm a functional lamer :]
+; output is:
+; {:days [{:date distinct-day :posts [list-of-posts]}]}
 (defn make-post-list [posts]
-  {:days [{:date "Heute"
-          :posts posts}]}) 
+  (def dates (make-date-list posts))
+  {:days (map (fn [date] (posts-for-date posts date)) dates)})
 
 (defn render-posts [posts]
   (render-page "templates/index.mustache" (make-post-list posts)))
