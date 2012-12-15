@@ -8,6 +8,7 @@
 (defroutes app-routes
   (GET "/" [] handle-index)
   (GET "/admin" [] handle-admin)
+  (POST "/admin" [] handle-admin-post)
   (route/resources "/")
   (route/not-found handle-404)) 
 

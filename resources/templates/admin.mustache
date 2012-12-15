@@ -1,4 +1,12 @@
 {{>header}}
+
+<form action="/admin" method="post">
+				<textarea rows="8" cols="80" id="content" name="content">{{content}}</textarea><br>
+				<input id="post-id" type="hidden" value="{{id}}" name="post-id"><br>
+				<input type="password" name="password"><br>
+				<input type="submit" name="Submit" value="Submit">
+</form>
+
 <center>
 		<h2>Admin</h2>
 </center>

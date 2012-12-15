@@ -1,8 +1,10 @@
 (ns fm3.views
   (:require [clostache.parser :as tmpl])
   (:require fm3.blog)
-  (:require fm3.l33t))
-
+  (:require fm3.l33t)
+  (:require [clojure.java.io :as io])
+  (:require [clojure.string :as string])
+  (:use [ring.util.response :only [redirect]]))
 ; ------- partial helper -----------
 (defn page-header []
   (tmpl/render-resource "templates/header.mustache" {}))
@@ -42,7 +44,26 @@
 
 ;; ----------- handler ----------------
 (defn handle-admin [req]
- (render-page "templates/admin.mustache" req)) 
+  (def post-id (:id (:params req)))
+  (render-page "templates/admin.mustache" (fm3.blog/post-with-id post-id)))
+
+(defn admin-password []
+  (string/trim-newline (slurp (io/resource "password"))))
+
+(defn handle-admin-post [req]
+  (def password (:password (:params req)))
+  (def post-id (:post-id (:params req)))
+  (def post-content (:content (:params req)))
+  (if (= password (admin-password))
+    (if (not= 0 (count post-id))
+      (do
+        (fm3.blog/update-post-with-id post-id post-content)
+        (redirect (str "/?id=" post-id)))
+      (do
+        (def new-post-id (:GENERATED_KEY 
+                           (fm3.blog/create-post post-content)))
+        (redirect (str "/?id=" new-post-id))))
+    (str "lol wrong passwords!")))
 
 (defn handle-404 [req]
   (render-page "templates/404.mustache" req)) 
