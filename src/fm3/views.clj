@@ -1,7 +1,6 @@
 (ns fm3.views
   (:require [clostache.parser :as tmpl])
   (:require fm3.blog)
-  (:require fm3.l33t)
   (:require [clj-time.core :as time])
   (:require [clj-time.format :as timeformat])
   (:require [clojure.java.io :as io])
