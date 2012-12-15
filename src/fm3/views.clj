@@ -27,7 +27,7 @@
 (defn make-date [timestamp]
   (def formatter (timeformat/formatter "yyyy-MM-dd HH:mm:ss.S"))
   (def date (timeformat/parse formatter timestamp))
-  (str (time/day date) " - " (time/month date) " - " (time/year date)))
+  (.toString date "EE MMM dd yyyy"))
 
 ; get's a human readable date string from a post parsing its :timestamp 
 (defn date-for-post [post]
@@ -40,7 +40,8 @@
 ; makes a map{list} of posts belonging to 'date'
 (defn posts-for-date [posts date]
   (def the-posts 
-    (filter (fn [post] (= (date-for-post post) date)) posts))
+    (filter (fn [post] (= (date-for-post post) date)) 
+      posts))
   {:date date :posts the-posts})
 
 ; sort posts by date and put them into a clostache compatible map
