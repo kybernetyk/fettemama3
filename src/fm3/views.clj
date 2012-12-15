@@ -5,6 +5,11 @@
   (:require [clojure.java.io :as io])
   (:require [clojure.string :as string])
   (:use [ring.util.response :only [redirect]]))
+
+; ------- helper ------------------
+(defn admin-password []
+  (string/trim-newline (slurp (io/resource "password"))))
+
 ; ------- partial helper -----------
 (defn page-header []
   (tmpl/render-resource "templates/header.mustache" {}))
@@ -42,13 +47,19 @@
   (def posts {:posts (map transformer (fm3.blog/all-posts))})
   (render-page "templates/index.mustache" posts))
 
+;; ---------- post helpers ------------
+(defn create-new-post [post-content]
+  (def new-post-id (:GENERATED_KEY (fm3.blog/create-post post-content)))
+  (redirect (str "/?id=" new-post-id)))
+
+(defn update-post [post-id post-content]
+  (fm3.blog/update-post-with-id post-id post-content)
+  (redirect (str "/?id=" post-id)))
+  
 ;; ----------- handler ----------------
 (defn handle-admin [req]
   (def post-id (:id (:params req)))
   (render-page "templates/admin.mustache" (fm3.blog/post-with-id post-id)))
-
-(defn admin-password []
-  (string/trim-newline (slurp (io/resource "password"))))
 
 (defn handle-admin-post [req]
   (def password (:password (:params req)))
@@ -56,13 +67,8 @@
   (def post-content (:content (:params req)))
   (if (= password (admin-password))
     (if (not= 0 (count post-id))
-      (do
-        (fm3.blog/update-post-with-id post-id post-content)
-        (redirect (str "/?id=" post-id)))
-      (do
-        (def new-post-id (:GENERATED_KEY 
-                           (fm3.blog/create-post post-content)))
-        (redirect (str "/?id=" new-post-id))))
+      (update-post post-id post-content)
+      (create-new-post post-content))
     (str "lol wrong passwords!")))
 
 (defn handle-404 [req]
