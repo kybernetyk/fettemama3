@@ -7,9 +7,6 @@
   (:use [ring.util.response :only [redirect]]))
 
 ; ------- helper ------------------
-(defn admin-password []
-  (string/trim-newline (slurp (io/resource "password"))))
-
 ; ------- partial helper -----------
 (defn page-header []
   (tmpl/render-resource "templates/header.mustache" {}))
@@ -22,6 +19,7 @@
                  :footer (page-footer)})
   (tmpl/render-resource templ data partials))
 
+;; ----------------------------------------- POST RENDERING -------------------------
 ; ---------- post transformer -----------------
 (defn transformer-l33t [post]
   {:id (:id post)
@@ -35,19 +33,34 @@
     transformer-l33t
     transformer-none))
 
-; ----------- renderer -----------------
-(defn render-post [transformer post]
-  (render-page "templates/post.mustache" (transformer post)))
+; ----------- post renderer -----------------
+(defn make-post-list [posts]
+  {:days [{:date "Heute"
+          :posts posts}]}) 
+
+(defn render-posts [posts]
+  (render-page "templates/index.mustache" (make-post-list posts)))
 
 (defn render-last-n-posts [transformer postcount]
-  (def posts {:posts (map transformer (fm3.blog/last-n-posts postcount))})
-  (render-page "templates/index.mustache" posts))
+  (def posts (fm3.blog/last-n-posts postcount))
+  (def transformed-posts (into [] (map transformer posts))) ;clostache wants a VECTOR - won't work with a LIST oO
+  (render-posts transformed-posts))
 
 (defn render-all-posts [transformer]
-  (def posts {:posts (map transformer (fm3.blog/all-posts))})
-  (render-page "templates/index.mustache" posts))
+  (def posts (fm3.blog/all-posts))
+  (def transformed-posts (into [] (map transformer posts))) ;clostache wants a VECTOR - won't work with a LIST oO
+  (render-posts transformed-posts))
 
-;; ---------- post helpers ------------
+(defn render-single-post-with-id [transformer post-id]
+  (def post (fm3.blog/post-with-id post-id))
+  (render-page "templates/post.mustache" (transformer post)))
+
+
+;; ----------------------------------------- ADMIN -------------------------
+;; ---------- admin helpers ------------
+(defn admin-password []
+  (string/trim-newline (slurp (io/resource "password"))))
+
 (defn create-new-post [post-content]
   (def new-post-id (:GENERATED_KEY (fm3.blog/create-post post-content)))
   (redirect (str "/?id=" new-post-id)))
@@ -56,7 +69,7 @@
   (fm3.blog/update-post-with-id post-id post-content)
   (redirect (str "/?id=" post-id)))
   
-;; ----------- handler ----------------
+;; ----------- admin handler ----------------
 (defn handle-admin [req]
   (def post-id (:id (:params req)))
   (render-page "templates/admin.mustache" (fm3.blog/post-with-id post-id)))
@@ -71,6 +84,8 @@
       (create-new-post post-content))
     (str "lol wrong passwords!")))
 
+
+;; ------------------------------------------------------ HANDLERS
 (defn handle-404 [req]
   (render-page "templates/404.mustache" req)) 
 
@@ -84,5 +99,5 @@
   (if (= post-mode "all")
     (render-all-posts transformer)
     (if post-id 
-      (render-post transformer (fm3.blog/post-with-id post-id))
+      (render-single-post-with-id transformer post-id) 
       (render-last-n-posts transformer 20))))

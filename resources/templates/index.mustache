@@ -1,7 +1,10 @@
 {{>header}}
 
-{{#posts}}
-<ul>[<a href='/?id={{id}}'>{{id}}</a>] {{content}}</ul>
-{{/posts}}
+{{#days}}
+	<h3>{{date}}</h3>
+	{{#posts}}
+		<ul>[<a href='/?id={{id}}'>{{id}}</a>] {{&content}}</ul>
+	{{/posts}}
+{{/days}}
 
 {{>footer}}
