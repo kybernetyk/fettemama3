@@ -82,6 +82,8 @@
 (defn render-single-post-with-id [post-id]
   (render-post (fm3.blog/post-with-id post-id)))
 
+(defn render-archive [year month]
+  (render-posts (fm3.blog/posts-for-month year month)))
 
 ;; ----------------------------------------- ADMIN -------------------------
 ;; ---------- admin helpers ------------
@@ -116,13 +118,17 @@
 (defn handle-404 [req]
   (render-page "templates/404.mustache" req)) 
 
+(defn handle-arch [req]
+  (def year (:year (:params req)))
+  (def month (:month (:params req)))
+  (render-archive year month))
+
+(defn handle-all [req]
+  (render-all-posts))
+
+(defn handle-post [req]
+  (def post-id (:id (:params req)))
+  (render-single-post-with-id post-id))
+
 (defn handle-index [req]
-  (def post-id 
-    (:id (:params req)))
-  (def post-mode
-    (:mode (:params req)))
-  (if (= post-mode "all")
-    (render-all-posts)
-    (if post-id 
-      (render-single-post-with-id post-id) 
-      (render-last-n-posts 20))))
+  (render-last-n-posts 20))

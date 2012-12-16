@@ -6,9 +6,18 @@
             [compojure.route :as route]))
 
 (defroutes app-routes
-  (GET "/" [] handle-index)
-  (GET "/admin" [] handle-admin)
-  (POST "/admin" [] handle-admin-post)
+  (GET "/" [] 
+       handle-index)
+  (GET ["/post/:id" :id #"[0-9]+"] [] 
+       handle-post)
+  (GET "/all" [] 
+       handle-all)
+  (GET ["/arch/:year/:month" :year #"[0-9]+" :month #"[0-9]+"] [] 
+       handle-arch)
+  (GET "/admin" [] 
+       handle-admin)
+  (POST "/admin" [] 
+        handle-admin-post)
   (route/resources "/")
   (route/not-found handle-404)) 
 

@@ -1,5 +1,5 @@
-(defproject fm3 "0.1.1-SNAPSHOT"
-  :description "FIXME: write description"
+(defproject fm3 "0.1.2-SNAPSHOT"
+  :description "fettemama-3 blogging system"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [compojure "1.1.3"]

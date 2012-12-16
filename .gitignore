@@ -11,3 +11,4 @@ pom.xml
 .lein-env
 resources/password
 *.war
+.DS_Store
