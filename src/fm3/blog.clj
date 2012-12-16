@@ -36,7 +36,7 @@
     (if (= (Integer. month) 12)
       (str (+ (Integer. year) 1) "-" 1)
       (str year "-" (+ (Integer. month) 1))))
-  (exec-raw ["SELECT * FROM posts WHERE timestamp BETWEEN str_to_date(?,'%Y-%m') AND str_to_date(?,'%Y-%m');" 
+  (exec-raw ["SELECT * FROM posts WHERE timestamp BETWEEN str_to_date(?,'%Y-%m') AND str_to_date(?,'%Y-%m') ORDER BY id DESC;" 
             [date-one date-two]]
             :results))
 
