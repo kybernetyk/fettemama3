@@ -1,19 +1,12 @@
-(ns fm3.blog)
+(ns fm3.data.posts)
+(require 'fm3.common.db)
 (use 'korma.db)
 (use 'korma.core)
 
-;;-------------- db defs -------------
-(defdb blog-db 
-       (mysql {:db "fettemama" 
-               :user "root" 
-               :host "localhost" 
-               :password ""}))
-
 (defentity posts 
-           (database blog-db)
+           (database fm3.common.db/blog-db)
            (entity-fields :id :content :timestamp))
 
-;;-------------- le blog --------------
 (defn all-posts []
     (select posts
             (order :id :desc)))
