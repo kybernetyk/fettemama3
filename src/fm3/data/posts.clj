@@ -1,10 +1,10 @@
 (ns fm3.data.posts)
-(require 'fm3.common.db)
+(require 'fm3.data.common)
 (use 'korma.db)
 (use 'korma.core)
 
 (defentity posts 
-           (database fm3.common.db/blog-db)
+           (database fm3.data.common/blog-db)
            (entity-fields :id :content :timestamp))
 
 (defn all-posts []

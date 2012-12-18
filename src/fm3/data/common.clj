@@ -1,4 +1,4 @@
-(ns fm3.common.db)
+(ns fm3.data.common)
 
 (use 'korma.db)
 (use 'korma.core)
