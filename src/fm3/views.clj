@@ -99,14 +99,10 @@
   (redirect (str "/?id=" post-id)))
   
 ;; ----------- admin handler ----------------
-(defn handle-admin [req]
-  (def post-id (:id (:params req)))
+(defn handle-admin [post-id]
   (render-page "templates/admin.mustache" (fm3.blog/post-with-id post-id)))
 
-(defn handle-admin-post [req]
-  (def password (:password (:params req)))
-  (def post-id (:post-id (:params req)))
-  (def post-content (:content (:params req)))
+(defn handle-admin-post [post-id post-content password]
   (if (= password (admin-password))
     (if (not= 0 (count post-id))
       (update-post post-id post-content)
@@ -118,16 +114,13 @@
 (defn handle-404 [req]
   (render-page "templates/404.mustache" req)) 
 
-(defn handle-arch [req]
-  (def year (:year (:params req)))
-  (def month (:month (:params req)))
+(defn handle-arch [year month]
   (render-archive year month))
 
 (defn handle-all [req]
   (render-all-posts))
 
-(defn handle-post [req]
-  (def post-id (:id (:params req)))
+(defn handle-post [post-id]
   (render-single-post-with-id post-id))
 
 (defn handle-index [req]

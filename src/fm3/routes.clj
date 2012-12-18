@@ -8,16 +8,18 @@
 (defroutes app-routes
   (GET "/" [] 
        handle-index)
-  (GET ["/post/:id" :id #"[0-9]+"] [] 
-       handle-post)
+  (GET ["/post/:id" :id #"[0-9]+"] [id] 
+       (handle-post id))
   (GET "/all" [] 
        handle-all)
-  (GET ["/arch/:year/:month" :year #"[0-9]+" :month #"[0-9]+"] [] 
-       handle-arch)
-  (GET "/admin" [] 
-       handle-admin)
-  (POST "/admin" [] 
-        handle-admin-post)
+  (GET ["/arch/:year/:month" :year #"[0-9]+" :month #"[0-9]+"] [year month]
+       (handle-arch year month))
+  (GET ["/admin/:id" :id #"[0-9]+"] [id] 
+       (handle-admin id))
+  (GET "/admin" []
+      (handle-admin nil)) 
+  (POST "/admin" [post-id content password] 
+        (handle-admin-post post-id content password))
   (route/resources "/")
   (route/not-found handle-404)) 
 
