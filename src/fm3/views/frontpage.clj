@@ -43,9 +43,9 @@
 ; output:
 ; {:days [{:date distinct-day :posts [list-of-posts]}]}
 (defn make-post-list [posts]
-  (let [post-list (map make-post posts)
+  (let [post-list (pmap make-post posts)
         grouped-list (group-by :date post-list)
-        day-list (map make-day grouped-list)]
+        day-list (pmap make-day grouped-list)]
     {:days (reverse (sort-by :unix-ts day-list))}))
 
 (defn render-posts [posts]
