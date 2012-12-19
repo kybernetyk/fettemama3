@@ -27,7 +27,8 @@
 (defn append-comments [post]
   (let [comments (comments/comments-by-parent-url (posts/url-for-post-id (:id post)))]
     (assoc (assoc post :comments (map prepare-comment comments))
-      :has-comments (> (count comments) 0))))
+      :has-comments (> (count comments) 0)
+      :comment-count (count comments))))
 
 (defn render-post [post-id]
 	(let [post (posts/post-with-id post-id)

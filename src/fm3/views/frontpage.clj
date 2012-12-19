@@ -1,5 +1,6 @@
 (ns fm3.views.frontpage
   (:require [fm3.data.posts :as posts])
+  (:require [fm3.data.comments :as comments])
   (:require [fm3.views.common :as common])
   (:require [clj-time.format :as timeformat])
   (:require [clj-time.coerce :as coerce]))
@@ -24,11 +25,15 @@
   (let [uxts (timeformat/parse ux-formatter (str date))]
     (coerce/to-long uxts)))
 
+(defn comment-count-for-post-id [post-id]
+  (comments/count-by-parent-url (posts/url-for-post-id post-id)))
+
 ;make a clostache compatible post from database post
 (defn make-post [raw-post-data]
   {:date (make-date-from-timestamp (:timestamp raw-post-data))
    :content (:content raw-post-data)
-   :id (:id raw-post-data)})
+   :id (:id raw-post-data)
+   :comment-count (comment-count-for-post-id (:id raw-post-data))})
 
 ; make a day entry for the post list
 ; input:
