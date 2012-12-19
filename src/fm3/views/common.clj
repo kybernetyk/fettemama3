@@ -2,15 +2,17 @@
   (:require [clostache.parser :as tmpl]))
 
 ; ------- partial helper -----------
-(defn page-header []
+(def page-header
   (tmpl/render-resource "templates/header.mustache" {}))
 
-(defn page-footer []
+(def page-footer
   (tmpl/render-resource "templates/footer.mustache" {}))
 
+(def partials 
+	{:header page-header
+	 :footer page-footer})
+
 (defn render-page [templ data]
-  (def partials {:header (page-header)
-                 :footer (page-footer)})
   (tmpl/render-resource templ data partials))
 
 ;; ------------------------------------------------------ HANDLERS

@@ -4,7 +4,7 @@
 (use 'korma.core)
 
 ;;-------------- db defs -------------
-(defdb blog-db 
+(defdb blog-db
        (mysql {:db "fettemama" 
                :user "root" 
                :host "localhost" 
