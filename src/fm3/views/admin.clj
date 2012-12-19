@@ -11,11 +11,11 @@
 
 (defn create-new-post [post-content]
   (let [new-post-id (:GENERATED_KEY (posts/create-post post-content))]
-    (redirect (str "/post/" new-post-id))))
+  (redirect (posts/url-for-post-id new-post-id))))
 
 (defn update-post [post-id post-content]
   (posts/update-post-with-id post-id post-content)
-  (redirect (str "/post/" post-id)))
+  (redirect (posts/url-for-post-id post-id)))
   
 (defn render-admin [post-id]
   (common/render-page "templates/admin.mustache" (posts/post-with-id post-id)))

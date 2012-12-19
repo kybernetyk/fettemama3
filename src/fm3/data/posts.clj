@@ -22,6 +22,9 @@
             (where {:id id})
             (limit 1))))
 
+(defn url-for-post-id [post-id]
+  (str "http://fettemama.org/p/" post-id))
+
 ;will make 2012-1 -> 2012-2 / 2012-12 -> 2013-1
 (defn increase-by-one-month [year month]
   (if (= (Integer. month) 12)

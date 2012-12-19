@@ -10,3 +10,8 @@
                :host "localhost" 
                :password ""}))
 
+(defdb comment-db
+	(mysql {:db "fmcomments"
+			:user "root"
+			:host "localhost"
+			:password ""}))

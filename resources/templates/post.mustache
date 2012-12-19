@@ -3,8 +3,36 @@
 <div style="width: 800px">
 	<h3>{{timestamp}}</h3>
 	<ul>
-		<li><p>[<a href='/post/{{id}}'>{{id}}</a>] {{&content}}</p></li>
+		<li><p>[<a href='/p/{{id}}'>{{id}}</a>] {{&content}}</p></li>
 	</ul>
+
+<hr>
+<ul>
+		<form method="POST" action="/new-comment">
+		Dein Kommentar:<br>
+			<textarea rows="5" cols="30" id="content" name="content"></textarea><br>
+			<input id="post-id" type="hidden" value="{{id}}" name="post-id"><br>
+			<input id="author" type="hidden" value="anon">
+			<input type="submit" name="Submit" value="Submit">
+		</form>
+</ul>
+	
+	{{#has-comments}}
+		<hr>
+		<p>Kommentare:</p>
+		<ul>
+	{{/has-comments}}
+
+	{{#comments}}
+		<li><a href={{authorurl}}>{{author}}</a>: {{content}}</li>
+	{{/comments}}
+
+	{{#has-comments}}
+		</ul>
+	{{/has-comments}}
+
+
+
 </div>
 
 {{>footer}}
