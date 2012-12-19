@@ -14,11 +14,11 @@
   (redirect (posts/url-for-post-id new-post-id))))
 
 (defn update-post [post-id post-content]
-  (posts/update-post-with-id post-id post-content)
+  (posts/update-post-by-id post-id post-content)
   (redirect (posts/url-for-post-id post-id)))
   
 (defn render-admin [post-id]
-  (common/render-page "templates/admin.mustache" (posts/post-with-id post-id)))
+  (common/render-page "templates/admin.mustache" (posts/post-by-id post-id)))
 
 (defn handle-admin-post [post-id post-content password]
   (if (= password (admin-password))

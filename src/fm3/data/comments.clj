@@ -21,6 +21,11 @@
   (:cnt (first (exec-raw ["SELECT COUNT(*) AS cnt FROM comments WHERE parenturl = ?;" [parent-url]]
             :results))))
 
+(defn comments-by-author-url [author-url]
+  (select comments
+          (where {:authorurl author-url})
+          (order :id :desc)))
+
 (defn create-comment [author-url parent-url content]
   (insert comments
           (values {

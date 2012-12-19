@@ -16,7 +16,7 @@
            (order :id :desc)
            (limit postcount)))
 
-(defn post-with-id [id]
+(defn post-by-id [id]
   (first
     (select posts 
             (where {:id id})
@@ -42,7 +42,7 @@
   (insert posts
           (values {:content content})))
 
-(defn update-post-with-id [id content]
+(defn update-post-by-id [id content]
   (update posts
           (set-fields {:content content})
           (where {:id id})))

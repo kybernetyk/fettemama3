@@ -31,7 +31,7 @@
       :comment-count (count comments))))
 
 (defn render-post [post-id]
-	(let [post (posts/post-with-id post-id)
+	(let [post (posts/post-by-id post-id)
         post-with-comments (append-comments post)]
    (common/render-page "templates/post.mustache" post-with-comments))) 
     

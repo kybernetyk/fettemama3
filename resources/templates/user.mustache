@@ -1,0 +1,19 @@
+{{>header}}
+<div style="width: 800px;">
+<div>
+	<table border=0 width=800px>
+	<tr><td>ID</td><td>Name</td><td>URL</td></tr>
+	<tr><td>{{id}}</td><td>{{name}}</td><td>{{url}}</td></tr>
+	</table>
+</div>
+<hr>
+<div>
+	Comments by {{name}}:
+	<ul>
+	{{#comments}}
+	<li>Timestamp: {{timestamp}} | Parent: <a href={{parenturl}}>{{parenturl}}</a> <pre>{{content}}</pre></li>
+	{{/comments}}
+	</ul>
+</div>
+</div>
+{{>footer}}

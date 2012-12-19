@@ -4,6 +4,7 @@
   (:require fm3.views.post)
   (:require fm3.views.common)
   (:require fm3.views.comment)
+  (:require fm3.views.user)
 
   (:require [compojure.handler :as handler]
             [compojure.route :as route])
@@ -24,6 +25,10 @@
        (fm3.views.admin/render-admin id))
   (GET "/admin" []
       (fm3.views.admin/render-admin nil)) 
+  
+  (GET "/u/:user-name" [user-name]
+       (fm3.views.user/render-user user-name))
+  
   (POST "/admin" [post-id content password] 
         (fm3.views.admin/handle-admin-post post-id content password))
   (POST "/new-comment" [author-name post-id content]
