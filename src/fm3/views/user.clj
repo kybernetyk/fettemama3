@@ -7,5 +7,7 @@
 (defn render-user [user-name]
   (let [user (users/user-by-name user-name)
         comments (comments/comments-by-author-url (users/url-by-name user-name))]
-    (common/render-page "templates/user.mustache" (assoc user :comments comments))))
+    (if (not user)
+      (common/render-404 {}) 
+      (common/render-page "templates/user.mustache" (assoc user :comments comments)))))
    

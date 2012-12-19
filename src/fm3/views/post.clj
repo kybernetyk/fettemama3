@@ -33,5 +33,7 @@
 (defn render-post [post-id]
 	(let [post (posts/post-by-id post-id)
         post-with-comments (append-comments post)]
-   (common/render-page "templates/post.mustache" post-with-comments))) 
+   (if (not post)
+     (common/render-404 {})
+     (common/render-page "templates/post.mustache" post-with-comments))))
     

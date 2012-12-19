@@ -18,4 +18,6 @@
    :name (name-by-url url)})
 
 (defn user-by-name [name]
-  (user-by-url (url-by-name name)))
+  (if (= name "anon")
+    (user-by-url (url-by-name name))
+    nil))
