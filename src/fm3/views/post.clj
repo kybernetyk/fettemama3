@@ -4,12 +4,29 @@
   (:require [fm3.data.users :as users])
   (:require [fm3.views.common :as common]))
 
-(defn resolve-author-name [comment]
-  (assoc comment :author (users/name-by-url (:authorurl comment))))
+(def verbs 
+  ["vomitierte auf sein Tastenbrett"
+   "sabbelte"
+    "retardierte sich kontrovers"
+    "benutzte seine Tastatur und gab ein"
+    "hatte dann diese Idee"
+    "schrub"
+    "log"
+    "war naiv und schrieb"
+    "lolte"
+    "wrote"
+    "kotzte in den Raum"])
+
+(defn get-verb []
+  (verbs (rand-int (count verbs))))
+
+(defn prepare-comment [comment]
+  (assoc comment :author (users/name-by-url (:authorurl comment)) 
+                 :verb (get-verb)))
 
 (defn append-comments [post]
   (let [comments (comments/comments-by-parent-url (posts/url-for-post-id (:id post)))]
-    (assoc (assoc post :comments (map resolve-author-name comments))
+    (assoc (assoc post :comments (map prepare-comment comments))
       :has-comments (> (count comments) 0))))
 
 (defn render-post [post-id]

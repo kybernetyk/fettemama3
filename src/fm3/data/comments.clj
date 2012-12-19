@@ -15,7 +15,7 @@
 (defn comments-by-parent-url [parent-url]
   (select comments
     (where {:parenturl parent-url})
-    (order :id :desc)))
+    (order :id :asc)))
 
 
 (defn create-comment [author-url parent-url content]
