@@ -8,14 +8,9 @@
 
 		{{#posts}}
 			<item>
-			<description><![CDATA[
-			{{{content}}}
-			<br>
-			<a href={{link}}>[{{comment-count}}] Kommentare</a>
-			]]>
+			<description><![CDATA[{{{content}}}<br><a href={{link}}>[{{comment-count}}] Kommentare</a>]]>
 			</description>
-			<title>
-			{{title}}...
+			<title><![CDATA[{{{title}}}]]>
 			</title>
 			<link>{{link}}</link>
 			<guid>{{guid}}</guid>
@@ -25,9 +20,3 @@
 	</channel>
 </rss>
 
-
-
-{{#posts}}
-
-	<li><p>[<a href='/p/{{id}}'>{{comment-count}}</a>] {{&content}}</p></li>
-{{/posts}}

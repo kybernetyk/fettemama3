@@ -3,7 +3,8 @@
   (:require [fm3.data.comments :as comments])
   (:require [fm3.views.common :as common])
   (:require [clj-time.format :as timeformat])
-  (:require [clj-time.coerce :as coerce]))
+  (:require [clj-time.coerce :as coerce])
+  (:require [clojure.string :as string]))
 
 
 ; ----------- post renderer -----------------
@@ -15,14 +16,16 @@
 ;turns a database timestamp into a human readable timestamp
 (defn make-date-from-timestamp [timestamp]
   (let [date (timeformat/parse formatter (str timestamp))]
-    ;"Mon, 02 Jan 2006 15:04:05 -0700
-    (.toString date "EE, dd MMM yyyy HH:mm:ss Z")))
+    ;"Mon, 02 Jan 2006 15:04:05 -0700 Z
+    ;manual hack the timezone to +0100 because Java thinks we're GMT ...
+    (.toString date "EE, dd MMM yyyy HH:mm:ss +0100")))
 
 (defn comment-count-for-post-id [post-id]
   (comments/count-by-parent-url (posts/url-for-post-id post-id)))
 
+;TODO: html strip
 (defn make-title [content]
-  (.toUpperCase content))
+ (str (subs content 0 (min 48 (count content))) "..."))
 
 (defn make-content [content]
   content)
