@@ -15,6 +15,9 @@
 (defn render-page [templ data]
   (tmpl/render-resource templ data partials))
 
+(defn render-template [template data]
+  (tmpl/render-resource template data))
+
 ;; ------------------------------------------------------ HANDLERS
 (defn render-404 [req]
   (render-page "templates/404.mustache" req)) 

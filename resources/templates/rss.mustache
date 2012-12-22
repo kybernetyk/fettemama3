@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+	<channel>
+		<title>fefemama 3 rss feed</title>
+		<link>http://fettemama.org</link>
+		<description>THE BEST BLOG IN THE UNIVERSE WRITTEN IN Go :]</description>
+		<language>de</language>
+
+		{{#posts}}
+			<item>
+			<description><![CDATA[
+			{{{content}}}
+			<br>
+			<a href={{link}}>[{{comment-count}}] Kommentare</a>
+			]]>
+			</description>
+			<title>
+			{{title}}...
+			</title>
+			<link>{{link}}</link>
+			<guid>{{guid}}</guid>
+			<pubDate>{{date}}</pubDate>
+			</item>
+		{{/posts}}
+	</channel>
+</rss>
+
+
+
+{{#posts}}
+
+	<li><p>[<a href='/p/{{id}}'>{{comment-count}}</a>] {{&content}}</p></li>
+{{/posts}}

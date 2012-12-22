@@ -5,6 +5,7 @@
   (:require fm3.views.common)
   (:require fm3.views.comment)
   (:require fm3.views.user)
+  (:require fm3.views.rss)
 
   (:require [compojure.handler :as handler]
             [compojure.route :as route])
@@ -33,6 +34,8 @@
         (fm3.views.admin/handle-admin-post post-id content password))
   (POST "/new-comment" [author-name post-id content]
         (fm3.views.comment/post-new-comment author-name post-id content))
+  (GET "/rss.xml" []
+       fm3.views.rss/render-rss)
   (route/resources "/")
   (route/not-found fm3.views.common/render-404)) 
 
