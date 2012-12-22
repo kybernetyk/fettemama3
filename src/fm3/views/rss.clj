@@ -6,6 +6,9 @@
   (:require [clj-time.coerce :as coerce])
   (:require [clojure.string :as string]))
 
+(import '[org.jsoup Jsoup])
+(defn strip-html [s]
+  (.text (Jsoup/parse s)))
 
 ; ----------- post renderer -----------------
 ; convert a post timestamp to human readable format
@@ -23,9 +26,10 @@
 (defn comment-count-for-post-id [post-id]
   (comments/count-by-parent-url (posts/url-for-post-id post-id)))
 
-;TODO: html strip
 (defn make-title [content]
- (str (subs content 0 (min 48 (count content))) "..."))
+  (let [content (strip-html content)
+        len (count content)]
+    (str (subs content 0 (min 48 len)) "...")))
 
 (defn make-content [content]
   content)

@@ -7,7 +7,7 @@
                  [mysql/mysql-connector-java "5.1.6" :exclusions [org.clojure/clojure]]
                  [de.ubercode.clostache/clostache "1.3.1" :exclusions [org.clojure/clojure]]
                  [clj-time "0.4.4" :exclusions [org.clojure/clojure]]
-                 [org.clojure/clojure "1.4.0"]]
+                 [org.jsoup/jsoup "1.6.2"]]
 
   :plugins [[lein-ring "0.7.5"]]
   :ring {:handler fm3.routes/app})
