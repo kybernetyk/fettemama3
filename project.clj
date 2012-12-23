@@ -1,4 +1,4 @@
-(defproject fm3 "1.0.2-SNAPSHOT"
+(defproject fm3 "1.0.3-SNAPSHOT"
   :description "fettemama-3 blogging system"
   :url "http://example.com/FIXME"
   :dependencies [[org.clojure/clojure "1.4.0"]
