@@ -15,6 +15,12 @@
   (let [date (timeformat/parse formatter (str timestamp))]
     (.toString date "EE MMM dd yyyy HH:mm:ss")))
 
+(defn timestamp->rss [timestamp]
+  (let [date (timeformat/parse formatter (str timestamp))]
+    ;"Mon, 02 Jan 2006 15:04:05 -0700 Z
+    ;manual hack the timezone to +0100 because Java thinks we're GMT ...
+    (.toString date "EE, dd MMM yyyy HH:mm:ss +0100")))
+
 (def ux-formatter 
   (timeformat/formatter "EE MMM dd yyyy"))
 

@@ -2,26 +2,12 @@
   (:require [fm3.data.posts :as posts])
   (:require [fm3.data.comments :as comments])
   (:require [fm3.views.common :as common])
-  (:require [clj-time.format :as timeformat])
-  (:require [clj-time.coerce :as coerce])
+  (:require [fm3.views.time :as time])
   (:require [clojure.string :as string]))
 
 (import '[org.jsoup Jsoup])
 (defn strip-html [s]
   (.text (Jsoup/parse s)))
-
-; ----------- post renderer -----------------
-; convert a post timestamp to human readable format
-
-(def formatter 
-  (timeformat/formatter "yyyy-MM-dd HH:mm:ss.S"))
-
-;turns a database timestamp into a human readable timestamp
-(defn make-date-from-timestamp [timestamp]
-  (let [date (timeformat/parse formatter (str timestamp))]
-    ;"Mon, 02 Jan 2006 15:04:05 -0700 Z
-    ;manual hack the timezone to +0100 because Java thinks we're GMT ...
-    (.toString date "EE, dd MMM yyyy HH:mm:ss +0100")))
 
 (defn comment-count-for-post-id [post-id]
   (comments/count-by-parent-url (posts/url-for-post-id post-id)))
@@ -42,7 +28,7 @@
 
 ;make a clostache compatible post from database post
 (defn make-post [raw-post-data]
-  {:date (make-date-from-timestamp (:timestamp raw-post-data))
+  {:date (time/timestamp->rss (:timestamp raw-post-data))
    :content (make-content (:content raw-post-data))
    :title (make-title (:content raw-post-data))
    :id (:id raw-post-data)
