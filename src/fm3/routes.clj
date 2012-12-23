@@ -36,6 +36,14 @@
         (fm3.views.comment/post-new-comment author-name post-id content))
   (GET "/rss.xml" []
        fm3.views.rss/render-rss)
+
+  ;;legacy rss urls that are still out there in use
+  (GET "/wp-rss2.php" [] fm3.views.rss/render-rss)
+  (GET "/index.php/feed/" [] fm3.views.rss/render-rss)
+  (GET "/index.php/feed/atom/" [] fm3.views.rss/render-rss)
+  (GET "/feed/rss2/" [] fm3.views.rss/render-rss)
+  (GET "/feed/" [] fm3.views.rss/render-rss)
+  
   (route/resources "/")
   (route/not-found fm3.views.common/render-404)) 
 
