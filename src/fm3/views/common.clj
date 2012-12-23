@@ -1,6 +1,7 @@
 (ns fm3.views.common
   (:require [clostache.parser :as tmpl]))
 
+
 ; ------- partial helper -----------
 (def page-header
   (tmpl/render-resource "templates/header.mustache" {}))
