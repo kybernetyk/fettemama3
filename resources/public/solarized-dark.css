@@ -38,7 +38,9 @@ textarea {
   font-family: sans-serif;
 }
 body {
-	margin: 0 auto; width: 1234px;
+	/*margin: 0 auto; width: 800px;*/
+	margin: 0; width: 800px;
+
 }
 a:focus {
   outline: thin dotted;
