@@ -1,0 +1,18 @@
+Current Version: 1.0.3
+
+New in 1.0.3:
+- timestamps won't show 0 Milliseconds anymore
+- refactored timestamp functions into fm3.views.time helper namespace
+- reference to the fefe has been removed
+- added CHANGELOG.txt
+
+New in 1.0.2:
+- id of comments is now displayed 
+- github link text in header has been fixed
+- web site width setting has been moved to the CSS from html
+
+New in 1.0.1:
+- RSS link in <head> now points to /rss.xml instead of feedburner
+- RSS
+- /u/ user view
+- comment count added
