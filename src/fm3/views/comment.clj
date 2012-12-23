@@ -9,5 +9,4 @@
 	(let [author-url (users/url-by-name author-name)
 		post-url (posts/url-for-post-id post-id)]
 	(comments/create-comment author-url post-url content)
-;	(redirect post-url))) ;comment this out till we're live 
-	(redirect (str "/p/" post-id))))
+	(redirect post-url)))
