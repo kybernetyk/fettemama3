@@ -5,8 +5,6 @@
   (:require [fm3.views.common :as common]))
 
 ; ----------- post renderer -----------------
-; convert a post timestamp to human readable format
-
 (defn comment-count-for-post-id [post-id]
   (comments/count-by-parent-url (posts/url-for-post-id post-id)))
 
@@ -30,10 +28,11 @@
 ; output:
 ; {:days [{:date distinct-day :posts [list-of-posts]}]}
 (defn make-post-list [posts]
-  (let [post-list (map make-post posts)
-        grouped-list (group-by :day post-list)
-        day-list (map make-day grouped-list)]
-    {:days (reverse (sort-by :unix-ts day-list))}))
+  (let [posts (map make-post posts)
+        posts (group-by :day posts)
+        posts (map make-day posts)
+        posts (reverse (sort-by :unix-ts posts))]
+    {:days posts}))
 
 (defn render-posts [posts]
   (common/render-page "templates/index.mustache" (make-post-list posts)))

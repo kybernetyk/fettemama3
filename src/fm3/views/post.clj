@@ -18,25 +18,32 @@
     "wrote"
     "kotzte in den Raum"])
 
-(defn get-verb []
+(defn make-random-verb []
   (verbs (rand-int (count verbs))))
 
-(defn prepare-comment [comment]
+(defn make-comment [comment]
   (assoc comment :author (users/name-by-url (:authorurl comment)) 
-                 :verb (get-verb)
+                 :verb (make-random-verb)
                  :timestamp (time/timestamp->canonical (:timestamp comment))))
 
 (defn append-comments [post]
-  (let [comments (comments/comments-by-parent-url (posts/url-for-post-id (:id post)))]
-    (assoc (assoc post :comments (map prepare-comment comments))
+  (let [comments (comments/comments-by-parent-url (posts/url-for-post-id (:id post)))
+        comments (map make-comment comments)]
+    (assoc post 
+      :comments comments
       :has-comments (> (count comments) 0)
       :comment-count (count comments))))
 
+(defn make-timestamp [post]
+  (let [ts (:timestamp post)]
+    (assoc post :timestamp (time/timestamp->canonical ts))))
+
+(defn make-post [raw-post]
+  (-> raw-post make-timestamp append-comments))
+
 (defn render-post [post-id]
-	(let [post (posts/post-by-id post-id)
-       post (assoc post :timestamp (time/timestamp->canonical (:timestamp post)))
-        post-with-comments (append-comments post)]
-   (if (not post)
-     (common/render-404 {})
-     (common/render-page "templates/post.mustache" post-with-comments))))
+	(let [post (posts/post-by-id post-id)]
+  (if post
+    (common/render-page "templates/post.mustache" (make-post post))
+    (common/render-404 {}))))
     

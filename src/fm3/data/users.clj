@@ -21,5 +21,3 @@
   (if (= name "anon")
     (user-by-url (url-by-name name))
     nil))
-
-

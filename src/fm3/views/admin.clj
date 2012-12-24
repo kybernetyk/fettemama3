@@ -22,7 +22,7 @@
 
 (defn handle-admin-post [post-id post-content password]
   (if (= password (admin-password))
-    (if (not= 0 (count post-id))
+    (if (not= 0 (count post-id)) ;get length of the post-id string 
       (update-post post-id post-content)
       (create-new-post post-content))
     (str "lol wrong passwords!")))

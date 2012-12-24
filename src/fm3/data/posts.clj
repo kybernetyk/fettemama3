@@ -1,6 +1,9 @@
 (ns fm3.data.posts)
+
 (require 'fm3.data.common)
+
 (use 'korma.db)
+
 (use 'korma.core)
 
 (defentity posts 
@@ -25,7 +28,6 @@
 (defn url-for-post-id [post-id]
   (str "http://fettemama.org/p/" post-id))
 
-;will make 2012-1 -> 2012-2 / 2012-12 -> 2013-1
 (defn increase-by-one-month [year month]
   (if (= (Integer. month) 12)
     (str (+ (Integer. year) 1) "-" 1)
