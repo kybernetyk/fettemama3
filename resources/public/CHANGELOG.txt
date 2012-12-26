@@ -2,6 +2,7 @@ Deployed Version: 1.0.3
 
 New in 1.0.4:
 - rss now uses time helper
+- /?id=XXX redirects now to /p/XXX
 
 New in 1.0.3:
 - timestamps won't show 0 Milliseconds anymore

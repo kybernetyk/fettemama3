@@ -6,14 +6,18 @@
   (:require fm3.views.comment)
   (:require fm3.views.user)
   (:require fm3.views.rss)
+  (:use [ring.util.response :only [redirect]])
 
   (:require [compojure.handler :as handler]
             [compojure.route :as route])
   (:use compojure.core))
 
 (defroutes app-routes
-  (GET "/" [] 
-       fm3.views.frontpage/render-frontpage)
+  (GET "/" req 
+       (let [id (:id (:params req))]
+         (if id
+           (redirect (str "http://fettemama.org/p/" id))
+           fm3.views.frontpage/render-frontpage)))
   (GET "/all" [] 
        fm3.views.frontpage/render-all-posts)
   (GET ["/arch/:year/:month" :year #"[0-9]+" :month #"[0-9]+"] [year month]
