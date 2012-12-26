@@ -1,4 +1,4 @@
-Deployed Version: 1.0.3
+Deployed Version: 1.0.4
 
 New in 1.0.4:
 - rss now uses time helper
