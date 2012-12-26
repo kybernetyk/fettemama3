@@ -14,7 +14,7 @@
 
 (defroutes app-routes
   (GET "/" req 
-       (let [id (:id (:params req))]
+       (let [id (:pid (:params req))]
          (if id
            (redirect (str "http://fettemama.org/p/" id))
            fm3.views.frontpage/render-frontpage)))
