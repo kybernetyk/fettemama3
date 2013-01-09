@@ -9,6 +9,12 @@
 (defn string-contains? [^String big ^String little]
       (not (neg? (.indexOf big little))))
 
+(def kill-list ["href=" "hitler" "jude" "lolita"])
+
+(defn is-valid? [^String content]
+  (let [content (string/lower-case content)]
+   (= 0 (count (filter (fn [bad-word] (string-contains? content bad-word)) kill-list)))))
+
 (defn process-new-comment [author-name post-id content]
   (let [author-url (users/url-by-name author-name)
         post-url (posts/url-for-post-id post-id)]
@@ -16,7 +22,7 @@
     (redirect post-url)))
 
 (defn post-new-comment [author-name post-id content]
-  (if (string-contains? (string/lower-case content) "href=")
-    (redirect "http://127.0.0.1")
-    (process-new-comment author-name post-id content)))
+  (if (is-valid? content)
+      (process-new-comment author-name post-id content)
+      (redirect "http://127.0.0.1")))
 
