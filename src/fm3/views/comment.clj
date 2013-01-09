@@ -3,6 +3,7 @@
   (:require [fm3.data.posts :as posts])
   (:require [fm3.data.users :as users])
   (:require [fm3.views.common :as common])
+  (:require [clojure.string :as string])
   (:use [ring.util.response :only [redirect]]))
 
 (defn string-contains? [^String big ^String little]
@@ -15,7 +16,7 @@
     (redirect post-url)))
 
 (defn post-new-comment [author-name post-id content]
-  (if (string-contains? content "href=")
+  (if (string-contains? (string/lower-case content) "href=")
     (redirect "http://127.0.0.1")
     (process-new-comment author-name post-id content)))
 
