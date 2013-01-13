@@ -9,7 +9,7 @@
 (defn string-contains? [^String big ^String little]
       (not (neg? (.indexOf big little))))
 
-(def kill-list ["href=" "hitler" "jude" "lolita"])
+(def kill-list ["href=" "hitler" "jude" "lolita" "卐"])
 
 (defn is-valid? [^String content]
   (let [content (string/lower-case content)]
