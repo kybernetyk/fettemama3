@@ -14,7 +14,7 @@
 	{{/has-comments}}
 
 	{{#comments}}
-		<li>[#{{id}}] <a href={{authorurl}}>{{author}}</a> @ {{timestamp}} {{verb}}:<pre>{{content}}</pre></li>
+		<li>[<a href="#{{id}}" name="{{id}}">#{{id}}</a>] <a href={{authorurl}}>{{author}}</a> @ {{timestamp}} {{verb}}:<pre>{{content}}</pre></li>
 	{{/comments}}
 
 	{{#has-comments}}
