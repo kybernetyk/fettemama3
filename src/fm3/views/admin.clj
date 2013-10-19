@@ -26,4 +26,3 @@
       (update-post post-id post-content)
       (create-new-post post-content))
     (str "lol wrong passwords!")))
-

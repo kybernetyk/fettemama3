@@ -1,12 +1,9 @@
 (ns fm3.data.posts)
-
 (require 'fm3.data.common)
-
 (use 'korma.db)
-
 (use 'korma.core)
 
-(defentity posts 
+(defentity posts
            (database fm3.data.common/blog-db)
            (entity-fields :id :content :timestamp))
 
@@ -21,12 +18,13 @@
 
 (defn post-by-id [id]
   (first
-    (select posts 
+    (select posts
             (where {:id id})
             (limit 1))))
 
 (defn url-for-post-id [post-id]
   (str "http://fettemama.org/p/" post-id))
+
 
 (defn increase-by-one-month [year month]
   (if (= (Integer. month) 12)
@@ -36,7 +34,7 @@
 (defn posts-for-month [year month]
   (let [date-one (str year "-" month)
         date-two (increase-by-one-month year month)]
-          (exec-raw ["SELECT * FROM posts WHERE timestamp BETWEEN str_to_date(?,'%Y-%m') AND str_to_date(?,'%Y-%m') ORDER BY id DESC;" 
+          (exec-raw ["SELECT * FROM posts WHERE timestamp BETWEEN str_to_date(?,'%Y-%m') AND str_to_date(?,'%Y-%m') ORDER BY id DESC;"
             [date-one date-two]]
             :results)))
 
